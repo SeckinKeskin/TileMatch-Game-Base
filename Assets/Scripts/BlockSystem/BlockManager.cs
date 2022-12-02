@@ -20,8 +20,8 @@ public class BlockManager : MonoBehaviour
     {
         switch (type)
         {
-            case BlockTypes.Dynamiet:
-                block = new DynamietBlock();
+            case BlockTypes.Dynamite:
+                block = new DynamiteBlock();
                 break;
             default:
                 block = new StandardBlock();

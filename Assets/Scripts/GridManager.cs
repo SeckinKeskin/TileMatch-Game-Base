@@ -36,7 +36,7 @@ public class GridManager : MonoBehaviour
         switch (rndm)
         {
             case 2:
-                return BlockTypes.Dynamiet;
+                return BlockTypes.Dynamite;
             default:
                 return BlockTypes.Standard;
         }
