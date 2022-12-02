@@ -9,14 +9,14 @@ public class BlockManager : MonoBehaviour
     private Block block;
     private GameObject cloneBlockObject;
     private BlockBehaviour blockBehaviour;
-    private List<ScriptableBlockObject> standartBlockObjectList = new List<ScriptableBlockObject>();
+    private List<ScriptableBlockObject> standardBlockObjectList = new List<ScriptableBlockObject>();
 
     public void Start()
     {
-        setBlockListByType(BlockTypes.Standart);
+        setBlockListByType(BlockTypes.Standard);
     }
 
-    public void createBlock(Cell cell, BlockTypes type = BlockTypes.Standart)
+    public void createBlock(Cell cell, BlockTypes type = BlockTypes.Standard)
     {
         switch (type)
         {
@@ -24,7 +24,7 @@ public class BlockManager : MonoBehaviour
                 block = new DynamietBlock();
                 break;
             default:
-                block = new StandartBlock();
+                block = new StandardBlock();
                 break;
         }
 
@@ -56,14 +56,14 @@ public class BlockManager : MonoBehaviour
         return null;    //Need Error Handler! Check!
     }
 
-    public ScriptableBlockObject randomizeScriptableObject(BlockTypes type = BlockTypes.Standart)
+    public ScriptableBlockObject randomizeScriptableObject(BlockTypes type = BlockTypes.Standard)
     {
-        if (standartBlockObjectList.Count == 0)
+        if (standardBlockObjectList.Count == 0)
             setBlockListByType(type);
 
-        int rndm = Random.Range(0, standartBlockObjectList.Count);
+        int rndm = Random.Range(0, standardBlockObjectList.Count);
 
-        return standartBlockObjectList[rndm];
+        return standardBlockObjectList[rndm];
     }
 
     public void setBlockListByType(BlockTypes type)
@@ -72,7 +72,7 @@ public class BlockManager : MonoBehaviour
         {
             if (scriptableBlock.type == type)
             {
-                standartBlockObjectList.Add(scriptableBlock);
+                standardBlockObjectList.Add(scriptableBlock);
             }
         }
     }

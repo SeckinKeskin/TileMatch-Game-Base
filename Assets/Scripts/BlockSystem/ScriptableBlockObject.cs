@@ -4,6 +4,6 @@ using UnityEngine;
 public class ScriptableBlockObject : ScriptableObject
 {
     public Sprite sprite;
-    public BlockTypes type = BlockTypes.Standart;
+    public BlockTypes type = BlockTypes.Standard;
     public BlockColors blockColor = BlockColors.None;
 }
