@@ -9,6 +9,27 @@ public class StandardBlock : Block, IBlock
     private ScriptableBlockObject scriptableBlockObject;
     private BlockManager blockManager = GameManager.Instance.blockManager;
 
+    #region Standard Type Getters
+    private Sprite getSprite()
+    {
+        return scriptableBlockObject.sprite;
+    }
+
+    private BlockColors getBlockColor()
+    {
+        return scriptableBlockObject.blockColor;
+    }
+    #endregion
+    #region Set Scriptable Block
+    /// <summary>
+    /// First of all set one scriptable block for will be created block.
+    /// </summary>
+    private void setScriptableBlock()
+    {
+        scriptableBlockObject = blockManager.randomizeScriptableObject();
+    }
+    #endregion
+
     public override void create(Cell cell)
     {
         grid = cell;
@@ -30,8 +51,8 @@ public class StandardBlock : Block, IBlock
     {
         explodeList = new List<BlockBehaviour>();
         explodeList.Add(behaviour);
-        setExplodeList();
 
+        setExplodeList();
         reposition();
     }
 
@@ -43,9 +64,8 @@ public class StandardBlock : Block, IBlock
         foreach (BlockBehaviour blockBehaviour in explodeList)
         {
             oldRow = blockBehaviour.block.grid.row;
-            //grid.column = blockBehaviour.block.grid.column;
             blockBehaviour.block.grid.row = newRow;
-            
+
             blockBehaviour.block.setPosition();
             blockBehaviour.setup();
 
@@ -61,33 +81,12 @@ public class StandardBlock : Block, IBlock
         {
             blockBehaviour.block.grid.column = column;
             blockBehaviour.block.grid.row = blockBehaviour.block.grid.row + 1;
-            
+
             blockBehaviour.block.setPosition();
             blockBehaviour.setup();
         }
     }
 
-#region Standard Type Getters
-    private Sprite getSprite()
-    {
-        return scriptableBlockObject.sprite;
-    }
-
-    private BlockColors getBlockColor()
-    {
-        return scriptableBlockObject.blockColor;
-    }
-#endregion
-#region Set Scriptable Block
-/// <summary>
-/// First of all set one scriptable block for will be created block.
-/// </summary>
-    private void setScriptableBlock()
-    {
-        scriptableBlockObject = blockManager.randomizeScriptableObject();
-    }
-#endregion
-    
     private void setExplodeList()
     {
         BlockBehaviour blockBehaviour;
@@ -114,6 +113,7 @@ public class StandardBlock : Block, IBlock
             }
         }
     }
+
     private bool isAlreadyInExplodeList(BlockBehaviour blockBehaviour)
     {
         foreach (BlockBehaviour behaviour in explodeList)
@@ -125,85 +125,5 @@ public class StandardBlock : Block, IBlock
         }
 
         return false;
-    }
-    public void setEntireNeighbor()
-    {
-        BlockBehaviour blockBehaviour = blockManager.getBlockBehaviour(grid.column, grid.row);
-
-        int neighborColumn = 0;
-        int neighborRow = 0;
-
-        neighborBlockList = new List<BlockBehaviour>();
-
-        foreach (Vector2 neighborSide in neighborSides)
-        {
-            neighborColumn = grid.column + (int)neighborSide.x;
-            neighborRow = grid.row + (int)neighborSide.y;
-
-            blockBehaviour = blockManager.getBlockBehaviour(neighborColumn, neighborRow);
-            //
-            while (!isAlreadyInExplodeList(blockBehaviour) && blockBehaviour.block.color == color)
-            {
-                neighborBlockList.Add(blockBehaviour);
-
-                neighborColumn += (int)neighborSide.x;
-                neighborRow += (int)neighborSide.y;
-
-                blockBehaviour = blockManager.getBlockBehaviour(neighborColumn, neighborRow);
-            }
-        }
-    }
-
-    private BlockBehaviour getSameColorBlock(int neighborColumn, int neighborRow)
-    {
-        BlockBehaviour blockBehaviour;
-
-        int nColumn = neighborColumn;
-        int nRow = neighborRow;
-
-        foreach (Vector2 neighborSide in neighborSides)
-        {
-            nColumn = neighborColumn + (int)neighborSide.x;
-            nRow = neighborRow + (int)neighborSide.y;
-
-            blockBehaviour = blockManager.getBlockBehaviour(nColumn, nRow);
-
-            if (blockBehaviour.block.color == color)
-            {
-                return blockBehaviour;
-            }
-        }
-
-        return null;
-    }
-
-    public void setVerticalList(BlockBehaviour blockBehaviour)
-    {
-        int nRow = grid.row;
-
-        while (blockBehaviour && blockBehaviour.block.color == color)
-        {
-            nRow--;
-
-            explodeList.Add(blockBehaviour);
-            blockBehaviour.gameObject.SetActive(false);
-
-            blockBehaviour = blockManager.getBlockBehaviour(grid.column, nRow);
-        }
-    }
-
-    public void setHorizontalList(BlockBehaviour blockBehaviour)
-    {
-        int nColumn = grid.column;
-
-        while (blockBehaviour && blockBehaviour.block.color == color)
-        {
-            nColumn--;
-
-            explodeList.Add(blockBehaviour);
-            blockBehaviour.gameObject.SetActive(false);
-
-            blockBehaviour = blockManager.getBlockBehaviour(nColumn, grid.row);
-        }
     }
 }

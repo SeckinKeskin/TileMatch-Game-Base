@@ -89,11 +89,7 @@ public class BlockManager : MonoBehaviour
         return null;    //Need Error Handler! Check!
     }
 
-    public void resetBlocks()
-    {
-
-    }
-
+    #region Get Entire Column
     public List<BlockBehaviour> getEntireColumnBlocks(int blockColumn)
     {
         List<BlockBehaviour> inGameBlocks = GameManager.Instance.inGameBlockList;
@@ -125,7 +121,8 @@ public class BlockManager : MonoBehaviour
 
         return entireColumn;
     }
-
+    #endregion
+    #region Get Entire Row
     public List<BlockBehaviour> getEntireRowBlocks(int blockRow)
     {
         List<BlockBehaviour> inGameBlocks = GameManager.Instance.inGameBlockList;
@@ -157,4 +154,5 @@ public class BlockManager : MonoBehaviour
 
         return entireRow;
     }
+    #endregion
 }
